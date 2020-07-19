@@ -22,10 +22,14 @@ public class MainScheduleActivity extends AppCompatActivity implements TimeRecyc
         }
         myListData[48] = new ListData(24, false);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         TimeRecyclerAdapter adapter = new TimeRecyclerAdapter(myListData, this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+
+        recyclerView.addItemDecoration(new OverlapDecoration());
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
 

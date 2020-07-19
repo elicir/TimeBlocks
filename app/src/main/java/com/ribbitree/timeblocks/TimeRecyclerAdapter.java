@@ -57,7 +57,7 @@ public class TimeRecyclerAdapter extends RecyclerView.Adapter<TimeRecyclerAdapte
             this.timeView = itemView.findViewById(R.id.time);
             this.blockView = itemView.findViewById(R.id.lineBg);
             this.recyclerView = recyclerView;
-            itemView.setOnClickListener(this);
+            blockView.setOnClickListener(this);
         }
 
         @Override
