@@ -7,6 +7,9 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily">@font/muli</item>
         <item name="fontFamily">@font/muli</item>
+        <item name="colorControlNormal">#00000000</item>
+        <item name="colorControlActivated">@color/colorSecondary</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
     </style>
 
 </resources>

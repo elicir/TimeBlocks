@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 
@@ -40,6 +41,10 @@ public class TimeRecyclerAdapter extends RecyclerView.Adapter<TimeRecyclerAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.timeView.setText(listData[position].getTime());
+        holder.entry.setVisibility(View.GONE);
+        if (listData[position].hasEntry()) {
+            holder.entry.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -51,6 +56,7 @@ public class TimeRecyclerAdapter extends RecyclerView.Adapter<TimeRecyclerAdapte
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView timeView;
         public TextView blockView;
+        public EditText entry;
         public OnTimeListener onTimeListener;
         public RecyclerView recyclerView;
         public ViewHolder(View itemView, OnTimeListener onTimeListener, RecyclerView recyclerView) {
@@ -58,17 +64,18 @@ public class TimeRecyclerAdapter extends RecyclerView.Adapter<TimeRecyclerAdapte
             this.onTimeListener = onTimeListener;
             this.timeView = itemView.findViewById(R.id.time);
             this.blockView = itemView.findViewById(R.id.lineBg);
+            this.entry = itemView.findViewById(R.id.entry);
             this.recyclerView = recyclerView;
             blockView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            onTimeListener.onTimeClick(getAdapterPosition());
+            onTimeListener.onTimeClick(getAdapterPosition(), this.entry);
         }
     }
 
     public interface OnTimeListener{
-        void onTimeClick(int position);
+        void onTimeClick(int position, EditText entry);
     }
 }
