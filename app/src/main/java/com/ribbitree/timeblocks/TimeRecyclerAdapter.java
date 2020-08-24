@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 public class TimeRecyclerAdapter extends RecyclerView.Adapter<TimeRecyclerAdapter.ViewHolder>{
 
+
+
     RecyclerView recyclerView;
     private ListData[] listData;
     private OnTimeListener onTimeListener;
