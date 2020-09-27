@@ -40,10 +40,14 @@ public class TimeRecyclerAdapter extends RecyclerView.Adapter<TimeRecyclerAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.timeView.setText(listData[position].getTime());
+        ListData block = listData[position];
+        holder.timeView.setText(block.getTime());
         holder.entry.setVisibility(View.GONE);
-        if (listData[position].hasEntry()) {
+        if (block.hasEntry()) {
             holder.entry.setVisibility(View.VISIBLE);
+            if (block.hasText()) {
+                holder.entry.setText(block.getEntry());
+            }
         }
     }
 
