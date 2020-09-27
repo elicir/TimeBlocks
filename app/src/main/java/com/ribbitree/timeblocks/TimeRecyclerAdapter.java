@@ -42,11 +42,13 @@ public class TimeRecyclerAdapter extends RecyclerView.Adapter<TimeRecyclerAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         ListData block = listData[position];
         holder.timeView.setText(block.getTime());
+        holder.entry.setText("");
         holder.entry.setVisibility(View.GONE);
         if (block.hasEntry()) {
             holder.entry.setVisibility(View.VISIBLE);
             if (block.hasText()) {
                 holder.entry.setText(block.getEntry());
+                holder.entry.setFocusable(false);
             }
         }
     }
