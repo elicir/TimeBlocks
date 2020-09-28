@@ -6,28 +6,29 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(primaryKeys = {"hour", "minute"})
+@Entity
 public class BlockEntry {
 
-    @NonNull
+    @PrimaryKey(autoGenerate = true)
+    public int id;
     private String hour = "";
-    @NonNull
     private String minute = "";
-    @ColumnInfo(name = "entry_content")
+    @ColumnInfo
     private String entry = "";
 
-    private Boolean hasEntry = false;
-    private Boolean editable = true;
-    private Boolean hasText = false;
+    private Boolean hasEntry;
+    private Boolean editable;
+    private Boolean hasText;
 
-    @Ignore
-    public BlockEntry(int hour, Boolean half) {
-        String temp = Integer.toString(hour);
-        this.hour = (temp.length() == 2) ? temp : "0" + temp;
-        this.minute = (half) ? "30" : "00";
+    public BlockEntry() {}
+
+    public BlockEntry(String hour, String minute, Boolean hasEntry, Boolean editable, Boolean hasText) {
+        this.hour = hour;
+        this.minute = minute;
+        this.hasEntry = hasEntry;
+        this.editable = editable;
+        this.hasText = hasText;
     }
-
-    public BlockEntry(){}
 
     public String getTime() {
         return this.hour + ":" + this.minute;

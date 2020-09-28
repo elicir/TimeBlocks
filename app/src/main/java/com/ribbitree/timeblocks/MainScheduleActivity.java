@@ -65,18 +65,30 @@ public class MainScheduleActivity extends AppCompatActivity implements TimeRecyc
 
     private void saveEntry(BlockEntry block, EditText entry) {
         block.setEntry(entry.getText().toString());
-        this.entryDatabase.getEntryDao().update(block);
+        updateDatabase(block);
     }
 
     private void initializeBlocks() {
         this.blockEntries = (ArrayList<BlockEntry>)this.entryDatabase.getEntryDao().getAll();
         if (this.blockEntries.isEmpty()) {
             for (int i = 0; i < 48; i+=2) {
-                this.blockEntries.add(new BlockEntry(i/2, false));
-                this.blockEntries.add(new BlockEntry(i/2, true));
+                int hour = i/2;
+                String temp = Integer.toString(hour);
+                String hourString = (temp.length() == 2) ? temp : "0" + temp;
+                this.blockEntries.add(new BlockEntry(hourString, "00", false, true, false));
+                this.blockEntries.add(new BlockEntry(hourString, "30", false, true, false));
             }
-            this.blockEntries.add(new BlockEntry(24, false));
+            this.blockEntries.add(new BlockEntry("24", "00", false, true, false));
         }
+    }
+
+    private void updateDatabase(final BlockEntry block) {
+        EntryDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                EntryDatabase.getInstance(getApplicationContext()).getEntryDao().update(block);
+            }
+        });
     }
 
 }
