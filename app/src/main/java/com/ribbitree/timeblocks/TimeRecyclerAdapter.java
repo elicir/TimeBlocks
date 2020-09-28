@@ -2,7 +2,6 @@ package com.ribbitree.timeblocks;
 
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +15,10 @@ public class TimeRecyclerAdapter extends RecyclerView.Adapter<TimeRecyclerAdapte
 
 
     RecyclerView recyclerView;
-    private ListData[] listData;
+    private BlockEntry[] listData;
     private OnTimeListener onTimeListener;
 
-    public TimeRecyclerAdapter(ListData[] listData, OnTimeListener onTimeListener) {
+    public TimeRecyclerAdapter(BlockEntry[] listData, OnTimeListener onTimeListener) {
         this.listData = listData;
         this.onTimeListener = onTimeListener;
     }
@@ -40,7 +39,7 @@ public class TimeRecyclerAdapter extends RecyclerView.Adapter<TimeRecyclerAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ListData block = listData[position];
+        BlockEntry block = listData[position];
         holder.timeView.setText(block.getTime());
         holder.entry.setText("");
         holder.entry.setVisibility(View.GONE);

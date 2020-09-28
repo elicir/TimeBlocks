@@ -1,25 +1,36 @@
 package com.ribbitree.timeblocks;
 
-public class ListData{
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(primaryKeys = {"hour", "minute"})
+public class BlockEntry {
+
     private String hour;
     private String minute;
-    private Boolean hasEntry;
-    private String entry;
+    @ColumnInfo(name = "entry_content")
+    private String entry = "";
+
+    private Boolean hasEntry = false;
     private Boolean editable = true;
     private Boolean hasText = false;
-    public ListData(int hour, Boolean half) {
+
+    public BlockEntry(int hour, Boolean half) {
         String temp = Integer.toString(hour);
         this.hour = (temp.length() == 2) ? temp : "0" + temp;
         this.minute = (half) ? "30" : "00";
-        this.hasEntry = false;
     }
+
     public String getTime() {
         return this.hour + ":" + this.minute;
     }
     public Boolean hasEntry() {
         return hasEntry;
     }
-    public void setHasEntry(Boolean hasEntry) { this.hasEntry = hasEntry; }
+    public void setHasEntry(Boolean hasEntry) {
+        this.hasEntry = hasEntry;
+    }
     public String getEntry() {
         return this.entry;
     }
@@ -30,6 +41,10 @@ public class ListData{
     public Boolean isEditable() {
         return this.editable;
     }
-    public void setEditable() { this.editable = true; }
-    public Boolean hasText() { return hasText; }
+    public void setEditable() {
+        this.editable = true;
+    }
+    public Boolean hasText() {
+        return hasText;
+    }
 }

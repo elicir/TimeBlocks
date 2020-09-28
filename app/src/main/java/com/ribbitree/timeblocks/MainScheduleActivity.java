@@ -1,7 +1,6 @@
 package com.ribbitree.timeblocks;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,18 +16,18 @@ import android.view.KeyEvent;
 
 public class MainScheduleActivity extends AppCompatActivity implements TimeRecyclerAdapter.OnTimeListener{
 
-    private ListData[] myListData;
+    private BlockEntry[] myListData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        myListData = new ListData[49];
+        myListData = new BlockEntry[49];
         for (int i = 0; i < 48; i+=2) {
-            myListData[i] = new ListData(i/2, false);
-            myListData[i+1] = new ListData(i/2, true);
+            myListData[i] = new BlockEntry(i/2, false);
+            myListData[i+1] = new BlockEntry(i/2, true);
         }
-        myListData[48] = new ListData(24, false);
+        myListData[48] = new BlockEntry(24, false);
 
         TimeRecyclerAdapter adapter = new TimeRecyclerAdapter(myListData, this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -43,7 +42,7 @@ public class MainScheduleActivity extends AppCompatActivity implements TimeRecyc
 
     @Override
     public void onTimeClick(final int position, final EditText entry) {
-        ListData block = myListData[position];
+        BlockEntry block = myListData[position];
         Toast.makeText(getApplicationContext(), "Clicked on: " + block.getTime(), Toast.LENGTH_SHORT).show();
         myListData[position].setHasEntry(true);
         entry.setVisibility(View.VISIBLE);
