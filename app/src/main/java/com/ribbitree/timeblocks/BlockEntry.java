@@ -1,14 +1,18 @@
 package com.ribbitree.timeblocks;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(primaryKeys = {"hour", "minute"})
 public class BlockEntry {
 
-    private String hour;
-    private String minute;
+    @NonNull
+    private String hour = "";
+    @NonNull
+    private String minute = "";
     @ColumnInfo(name = "entry_content")
     private String entry = "";
 
@@ -16,16 +20,31 @@ public class BlockEntry {
     private Boolean editable = true;
     private Boolean hasText = false;
 
+    @Ignore
     public BlockEntry(int hour, Boolean half) {
         String temp = Integer.toString(hour);
         this.hour = (temp.length() == 2) ? temp : "0" + temp;
         this.minute = (half) ? "30" : "00";
     }
 
+    public BlockEntry(){}
+
     public String getTime() {
         return this.hour + ":" + this.minute;
     }
-    public Boolean hasEntry() {
+    public String getHour() {
+        return this.hour;
+    }
+    public void setHour(String hour) {
+        this.hour = hour;
+    }
+    public String getMinute() {
+        return this.minute;
+    }
+    public void setMinute(String minute) {
+        this.minute = minute;
+    }
+    public Boolean getHasEntry() {
         return hasEntry;
     }
     public void setHasEntry(Boolean hasEntry) {
@@ -36,15 +55,18 @@ public class BlockEntry {
     }
     public void setEntry(String entry) {
         this.entry = entry;
-        this.hasText = true;
+        setHasText(true);
     }
-    public Boolean isEditable() {
+    public Boolean getEditable() {
         return this.editable;
     }
-    public void setEditable() {
-        this.editable = true;
+    public void setEditable(Boolean editable) {
+        this.editable = editable;
     }
-    public Boolean hasText() {
+    public Boolean getHasText() {
         return hasText;
+    }
+    public void setHasText(Boolean hasText) {
+        this.hasText = hasText;
     }
 }

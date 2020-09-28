@@ -69,7 +69,7 @@ public class MainScheduleActivity extends AppCompatActivity implements TimeRecyc
     }
 
     private void initializeBlocks() {
-        this.blockEntries = this.entryDatabase.getEntryDao().getAll();
+        this.blockEntries = (ArrayList<BlockEntry>)this.entryDatabase.getEntryDao().getAll();
         if (this.blockEntries.isEmpty()) {
             for (int i = 0; i < 48; i+=2) {
                 this.blockEntries.add(new BlockEntry(i/2, false));

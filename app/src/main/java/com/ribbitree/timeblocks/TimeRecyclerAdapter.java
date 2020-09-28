@@ -45,9 +45,9 @@ public class TimeRecyclerAdapter extends RecyclerView.Adapter<TimeRecyclerAdapte
         holder.timeView.setText(block.getTime());
         holder.entry.setText("");
         holder.entry.setVisibility(View.GONE);
-        if (block.hasEntry()) {
+        if (block.getHasEntry()) {
             holder.entry.setVisibility(View.VISIBLE);
-            if (block.hasText()) {
+            if (block.getHasText()) {
                 holder.entry.setText(block.getEntry());
                 holder.entry.setFocusable(false);
             }
