@@ -9,16 +9,18 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 
 public class TimeRecyclerAdapter extends RecyclerView.Adapter<TimeRecyclerAdapter.ViewHolder>{
 
 
 
     RecyclerView recyclerView;
-    private BlockEntry[] listData;
+    private ArrayList<BlockEntry> listData;
     private OnTimeListener onTimeListener;
 
-    public TimeRecyclerAdapter(BlockEntry[] listData, OnTimeListener onTimeListener) {
+    public TimeRecyclerAdapter(ArrayList<BlockEntry> listData, OnTimeListener onTimeListener) {
         this.listData = listData;
         this.onTimeListener = onTimeListener;
     }
@@ -33,13 +35,13 @@ public class TimeRecyclerAdapter extends RecyclerView.Adapter<TimeRecyclerAdapte
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View listItem= layoutInflater.inflate(R.layout.list_item, parent, false);
+        View listItem = layoutInflater.inflate(R.layout.list_item, parent, false);
         return new ViewHolder(listItem, onTimeListener, recyclerView);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        BlockEntry block = listData[position];
+        BlockEntry block = listData.get(position);
         holder.timeView.setText(block.getTime());
         holder.entry.setText("");
         holder.entry.setVisibility(View.GONE);
@@ -55,7 +57,7 @@ public class TimeRecyclerAdapter extends RecyclerView.Adapter<TimeRecyclerAdapte
 
     @Override
     public int getItemCount() {
-        return listData.length;
+        return listData.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

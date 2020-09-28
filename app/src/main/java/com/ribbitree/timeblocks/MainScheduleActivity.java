@@ -14,22 +14,23 @@ import android.widget.Toast;
 import android.view.inputmethod.EditorInfo;
 import android.view.KeyEvent;
 
+import java.util.ArrayList;
+
 public class MainScheduleActivity extends AppCompatActivity implements TimeRecyclerAdapter.OnTimeListener{
 
-    private BlockEntry[] myListData;
+    private ArrayList<BlockEntry> blockEntries;
+    private EntryDatabase entryDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        myListData = new BlockEntry[49];
-        for (int i = 0; i < 48; i+=2) {
-            myListData[i] = new BlockEntry(i/2, false);
-            myListData[i+1] = new BlockEntry(i/2, true);
-        }
-        myListData[48] = new BlockEntry(24, false);
 
-        TimeRecyclerAdapter adapter = new TimeRecyclerAdapter(myListData, this);
+        entryDatabase = EntryDatabase.getInstance(this);
+
+        initializeBlocks();
+
+        TimeRecyclerAdapter adapter = new TimeRecyclerAdapter(blockEntries, this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
@@ -41,17 +42,17 @@ public class MainScheduleActivity extends AppCompatActivity implements TimeRecyc
     }
 
     @Override
-    public void onTimeClick(final int position, final EditText entry) {
-        BlockEntry block = myListData[position];
+    public void onTimeClick(int position, final EditText entry) {
+        final BlockEntry block = blockEntries.get(position);
         Toast.makeText(getApplicationContext(), "Clicked on: " + block.getTime(), Toast.LENGTH_SHORT).show();
-        myListData[position].setHasEntry(true);
+        blockEntries.get(position).setHasEntry(true);
         entry.setVisibility(View.VISIBLE);
         entry.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    saveEntry(position, entry);
+                    saveEntry(block, entry);
                     InputMethodManager imm = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     entry.setFocusable(false);
@@ -62,7 +63,20 @@ public class MainScheduleActivity extends AppCompatActivity implements TimeRecyc
         });
     }
 
-    private void saveEntry(int position, EditText entry) {
-        myListData[position].setEntry(entry.getText().toString());
+    private void saveEntry(BlockEntry block, EditText entry) {
+        block.setEntry(entry.getText().toString());
+        this.entryDatabase.getEntryDao().update(block);
     }
+
+    private void initializeBlocks() {
+        this.blockEntries = this.entryDatabase.getEntryDao().getAll();
+        if (this.blockEntries.isEmpty()) {
+            for (int i = 0; i < 48; i+=2) {
+                this.blockEntries.add(new BlockEntry(i/2, false));
+                this.blockEntries.add(new BlockEntry(i/2, true));
+            }
+            this.blockEntries.add(new BlockEntry(24, false));
+        }
+    }
+
 }

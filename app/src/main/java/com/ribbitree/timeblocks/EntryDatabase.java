@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase;
 
 @Database(entities = {BlockEntry.class}, version = 1)
 public abstract class EntryDatabase extends RoomDatabase {
-    public abstract EntryDao entryDao();
+    public abstract EntryDao getEntryDao();
 
     private static EntryDatabase entryDB;
 
