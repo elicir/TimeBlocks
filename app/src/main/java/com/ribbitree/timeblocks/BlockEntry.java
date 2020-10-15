@@ -6,9 +6,9 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "blockentry")
 public class BlockEntry {
-
+    // need to redo this properly so the entity represents the WHOLE TABLE. maybe create new class
     @PrimaryKey(autoGenerate = true)
     public int id;
     private String hour = "";
@@ -20,6 +20,7 @@ public class BlockEntry {
     private Boolean editable;
     private Boolean hasText;
 
+    @Ignore
     public BlockEntry() {}
 
     public BlockEntry(String hour, String minute, Boolean hasEntry, Boolean editable, Boolean hasText) {

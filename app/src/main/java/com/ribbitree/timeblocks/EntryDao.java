@@ -1,5 +1,6 @@
 package com.ribbitree.timeblocks;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -11,13 +12,16 @@ import java.util.List;
 @Dao
 public interface EntryDao {
     @Query("SELECT * FROM blockentry")
-    List<BlockEntry> getAll();
+    LiveData<List<BlockEntry>> getAll();
+
+    @Query("SELECT COUNT(*) FROM blockentry")
+    int count();
 
     @Insert
     void insert(BlockEntry entry);
 
     @Insert
-    void insertAll(BlockEntry entry);
+    void insertAll(List<BlockEntry> entries);
 
     @Update
     void update(BlockEntry entry);

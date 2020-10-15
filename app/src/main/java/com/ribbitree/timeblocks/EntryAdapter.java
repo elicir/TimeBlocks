@@ -9,20 +9,21 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
-public class TimeRecyclerAdapter extends RecyclerView.Adapter<TimeRecyclerAdapter.ViewHolder>{
+public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.EntryViewHolder>{
 
 
 
     RecyclerView recyclerView;
-    private ArrayList<BlockEntry> listData;
-    private OnTimeListener onTimeListener;
+    private ArrayList<BlockEntry> blockEntries;
+    private OnItemClickListener listener;
 
-    public TimeRecyclerAdapter(ArrayList<BlockEntry> listData, OnTimeListener onTimeListener) {
-        this.listData = listData;
-        this.onTimeListener = onTimeListener;
+    public EntryAdapter(ArrayList<BlockEntry> blockEntries, OnItemClickListener onTimeListener) {
+        this.blockEntries = blockEntries;
+        this.listener = onTimeListener;
     }
 
     @Override
@@ -33,15 +34,15 @@ public class TimeRecyclerAdapter extends RecyclerView.Adapter<TimeRecyclerAdapte
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public EntryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View listItem = layoutInflater.inflate(R.layout.list_item, parent, false);
-        return new ViewHolder(listItem, onTimeListener, recyclerView);
+        return new EntryViewHolder(listItem, listener, recyclerView, this.blockEntries);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        BlockEntry block = listData.get(position);
+    public void onBindViewHolder(EntryViewHolder holder, int position) {
+        BlockEntry block = blockEntries.get(position);
         holder.timeView.setText(block.getTime());
         holder.entry.setText("");
         holder.entry.setVisibility(View.GONE);
@@ -57,32 +58,41 @@ public class TimeRecyclerAdapter extends RecyclerView.Adapter<TimeRecyclerAdapte
 
     @Override
     public int getItemCount() {
-        return listData.size();
+        return blockEntries.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+    public void addEntries(ArrayList<BlockEntry> entries) {
+        this.blockEntries = entries;
+        notifyDataSetChanged();
+    }
+
+    public static class EntryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView timeView;
         public TextView blockView;
         public EditText entry;
-        public OnTimeListener onTimeListener;
+        public OnItemClickListener listener;
         public RecyclerView recyclerView;
-        public ViewHolder(View itemView, OnTimeListener onTimeListener, RecyclerView recyclerView) {
+        private ArrayList<BlockEntry> blockEntries;
+        public EntryViewHolder(View itemView, OnItemClickListener onTimeListener, RecyclerView recyclerView, ArrayList<BlockEntry> blockEntries) {
             super(itemView);
-            this.onTimeListener = onTimeListener;
+            this.listener = onTimeListener;
             this.timeView = itemView.findViewById(R.id.time);
             this.blockView = itemView.findViewById(R.id.lineBg);
             this.entry = itemView.findViewById(R.id.entry);
             this.recyclerView = recyclerView;
+            this.blockEntries = blockEntries;
             blockView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            onTimeListener.onTimeClick(getAdapterPosition(), this.entry);
+            int pos = getAdapterPosition();
+            listener.onTimeClick(this.entry, this.blockEntries.get(pos));
         }
     }
 
-    public interface OnTimeListener{
-        void onTimeClick(int position, EditText entry);
+    public interface OnItemClickListener{
+        void onTimeClick(EditText entry, BlockEntry blockEntry);
     }
 }
