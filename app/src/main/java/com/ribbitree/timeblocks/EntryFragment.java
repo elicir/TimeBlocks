@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ribbitree.timeblocks.viewmodel.EntryFragmentViewModel;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,7 @@ public class EntryFragment extends Fragment {
         // Inflate the layout for this fragment
 
         RecyclerView mEntryRecyclerView = view.findViewById(R.id.entryRecyclerView);
+        mEntryRecyclerView.addItemDecoration(new OverlapDecoration());
         mEntryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mEntryRecyclerView.setHasFixedSize(true);
         mEntryAdapter = new EntryAdapter(new ArrayList<BlockEntry>(), (MainActivity) getActivity());
