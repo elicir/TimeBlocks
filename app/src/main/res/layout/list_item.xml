@@ -34,7 +34,7 @@
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/entry"
-        android:inputType="textNoSuggestions|textVisiblePassword"
+        android:inputType="textAutoCorrect"
         android:maxLines="1"
         android:imeOptions="actionDone"
         android:layout_width="0dp"

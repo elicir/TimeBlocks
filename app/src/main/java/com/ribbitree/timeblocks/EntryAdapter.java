@@ -19,7 +19,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.EntryViewHol
 
     RecyclerView recyclerView;
     private ArrayList<BlockEntry> blockEntries;
-    private OnItemClickListener listener;
+    private final OnItemClickListener listener;
 
     public EntryAdapter(ArrayList<BlockEntry> blockEntries, OnItemClickListener onTimeListener) {
         this.blockEntries = blockEntries;
@@ -73,7 +73,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.EntryViewHol
         public EditText entry;
         public OnItemClickListener listener;
         public RecyclerView recyclerView;
-        private ArrayList<BlockEntry> blockEntries;
+        private final ArrayList<BlockEntry> blockEntries;
         public EntryViewHolder(View itemView, OnItemClickListener onTimeListener, RecyclerView recyclerView, ArrayList<BlockEntry> blockEntries) {
             super(itemView);
             this.listener = onTimeListener;
@@ -88,7 +88,9 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.EntryViewHol
         @Override
         public void onClick(View view) {
             int pos = getAdapterPosition();
-            listener.onTimeClick(this.entry, this.blockEntries.get(pos));
+            if (pos != RecyclerView.NO_POSITION) {
+                listener.onTimeClick(this.entry, this.blockEntries.get(pos));
+            }
         }
     }
 
